@@ -9,7 +9,7 @@
       <bpmn:incoming>Flow_0gcq2ys</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_16gzt2m" sourceRef="say-hello" targetRef="Activity_1xcl7s1" />
-    <bpmn:userTask id="say-hello" name="SomeForm">
+    <bpmn:userTask id="say-hello" name="SomeForm" camunda:candidateUsers="demo">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="Meno" label="Cena" type="string" defaultValue="V:R;CH:MenaEnum">
