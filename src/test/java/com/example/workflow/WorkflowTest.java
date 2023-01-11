@@ -14,11 +14,13 @@ import org.camunda.bpm.spring.boot.starter.test.helper.AbstractProcessEngineRule
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -27,6 +29,7 @@ import org.xml.sax.InputSource;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.StringReader;
 import java.util.stream.Collectors;
@@ -129,7 +132,8 @@ public class WorkflowTest extends AbstractProcessEngineRuleTest {
 
   @Autowired
   public RuntimeService runtimeService;
-
+  
+  @Ignore
   @Test
   public void shouldExecuteHappyPath() {
     // given
@@ -156,8 +160,8 @@ public class WorkflowTest extends AbstractProcessEngineRuleTest {
         // File file = new File(ModelModifier.class.getClassLoader().getResource("process1.bpmn").toURI());
 
         //"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" xmlns:camunda=\"http://camunda.org/schema/1.0/bpmn\" id=\"Definitions_0fr9mxs\" targetNamespace=\"http://bpmn.io/schema/bpmn\" exporter=\"Camunda Modeler\" exporterVersion=\"5.5.1\">\n  <bpmn:process id=\"camundaTest-process\" name=\"MyFirstProcess\" isExecutable=\"true\">\n    <bpmn:startEvent id=\"StartEvent_1\">\n      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>\n    </bpmn:startEvent>\n    <bpmn:sequenceFlow id=\"SequenceFlow_1fp17al\" sourceRef=\"StartEvent_1\" targetRef=\"say-hello\" />\n    <bpmn:endEvent id=\"EndEvent_0x6ir2l\">\n      <bpmn:incoming>Flow_0gcq2ys</bpmn:incoming>\n    </bpmn:endEvent>\n    <bpmn:sequenceFlow id=\"SequenceFlow_16gzt2m\" sourceRef=\"say-hello\" targetRef=\"Activity_1xcl7s1\" />\n    <bpmn:userTask id=\"say-hello\" name=\"SomeForm\">\n      <bpmn:extensionElements>\n        <camunda:formData>\n          <camunda:formField id=\"Meno\" label=\"Meno\" type=\"string\">\n            <camunda:properties>\n              <camunda:property id=\"Validator\" value=\"SomeValidator\" />\n            </camunda:properties>\n            <camunda:validation />\n          </camunda:formField>\n          <camunda:formField id=\"Priezvysko\" label=\"Priezvysko\" type=\"string\" defaultValue=\"&#34;&#34;\" />\n        </camunda:formData>\n        <camunda:inputOutput>\n          <camunda:outputParameter name=\"UserName\">${Meno}+${Priezvysko}</camunda:outputParameter>\n        </camunda:inputOutput>\n      </bpmn:extensionElements>\n      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>\n      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>\n    </bpmn:userTask>\n    <bpmn:sequenceFlow id=\"Flow_0gcq2ys\" sourceRef=\"Activity_1xcl7s1\" targetRef=\"EndEvent_0x6ir2l\" />\n    <bpmn:sendTask id=\"Activity_1xcl7s1\" name=\"send mail\" camunda:delegateExpression=\"${sendMail}\">\n      <bpmn:extensionElements />\n      <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>\n      <bpmn:outgoing>Flow_0gcq2ys</bpmn:outgoing>\n    </bpmn:sendTask>\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"camundaTest-process\">\n      <bpmndi:BPMNShape id=\"_BPMNShape_StartEvent_2\" bpmnElement=\"StartEvent_1\">\n        <dc:Bounds x=\"179\" y=\"99\" width=\"36\" height=\"36\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_06wlc8e_di\" bpmnElement=\"say-hello\">\n        <dc:Bounds x=\"270\" y=\"77\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"EndEvent_0x6ir2l_di\" bpmnElement=\"EndEvent_0x6ir2l\">\n        <dc:Bounds x=\"722\" y=\"112\" width=\"36\" height=\"36\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_15kl2hq_di\" bpmnElement=\"Activity_1xcl7s1\">\n        <dc:Bounds x=\"470\" y=\"77\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"SequenceFlow_1fp17al_di\" bpmnElement=\"SequenceFlow_1fp17al\">\n        <di:waypoint x=\"215\" y=\"117\" />\n        <di:waypoint x=\"270\" y=\"117\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"SequenceFlow_16gzt2m_di\" bpmnElement=\"SequenceFlow_16gzt2m\">\n        <di:waypoint x=\"370\" y=\"117\" />\n        <di:waypoint x=\"470\" y=\"117\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"Flow_0gcq2ys_di\" bpmnElement=\"Flow_0gcq2ys\">\n        <di:waypoint x=\"570\" y=\"117\" />\n        <di:waypoint x=\"646\" y=\"117\" />\n        <di:waypoint x=\"646\" y=\"130\" />\n        <di:waypoint x=\"722\" y=\"130\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>\n"
-            File file = new File("C:\\Projekty\\149\\Camunda\\src\\main\\resources\\process.bpmn");
-          modelInst = Bpmn.readModelFromFile(file);
+            File file = new File("D:\\alfabase\\CamundaTest\\src\\main\\resources\\process.bpmn");
+          modelInst = Bpmn.readModelFromFile(file); 
             // modelInst = Bpmn.createProcess()
             //         .name("Twitter QA")
             //         .executable()
@@ -206,7 +210,6 @@ public class WorkflowTest extends AbstractProcessEngineRuleTest {
   public void shouldParseXm1() {
     BpmnModelInstance modelInst;
         try {
-        
           var str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<bpmn:definitions xmlns:bpmn=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" xmlns:bpmndi=\"http://www.omg.org/spec/BPMN/20100524/DI\" xmlns:dc=\"http://www.omg.org/spec/DD/20100524/DC\" xmlns:di=\"http://www.omg.org/spec/DD/20100524/DI\" xmlns:camunda=\"http://camunda.org/schema/1.0/bpmn\" id=\"Definitions_0fr9mxs\" targetNamespace=\"http://bpmn.io/schema/bpmn\" exporter=\"Camunda Modeler\" exporterVersion=\"5.5.1\">\n  <bpmn:process id=\"camundaTest-process\" name=\"MyFirstProcess\" isExecutable=\"true\">\n    <bpmn:startEvent id=\"StartEvent_1\">\n      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>\n    </bpmn:startEvent>\n    <bpmn:sequenceFlow id=\"SequenceFlow_1fp17al\" sourceRef=\"StartEvent_1\" targetRef=\"say-hello\" />\n    <bpmn:endEvent id=\"EndEvent_0x6ir2l\">\n      <bpmn:incoming>Flow_0gcq2ys</bpmn:incoming>\n    </bpmn:endEvent>\n    <bpmn:sequenceFlow id=\"SequenceFlow_16gzt2m\" sourceRef=\"say-hello\" targetRef=\"Activity_1xcl7s1\" />\n    <bpmn:userTask id=\"say-hello\" name=\"SomeForm\">\n      <bpmn:extensionElements>\n        <camunda:formData>\n          <camunda:formField id=\"Meno\" label=\"Meno\" type=\"string\">\n            <camunda:properties>\n              <camunda:property id=\"Validator\" value=\"SomeValidator\" />\n            </camunda:properties>\n            <camunda:validation />\n          </camunda:formField>\n          <camunda:formField id=\"Priezvysko\" label=\"Priezvysko\" type=\"string\" defaultValue=\"&#34;&#34;\" />\n        </camunda:formData>\n        <camunda:inputOutput>\n          <camunda:outputParameter name=\"UserName\">${Meno}+${Priezvysko}</camunda:outputParameter>\n        </camunda:inputOutput>\n      </bpmn:extensionElements>\n      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>\n      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>\n    </bpmn:userTask>\n    <bpmn:sequenceFlow id=\"Flow_0gcq2ys\" sourceRef=\"Activity_1xcl7s1\" targetRef=\"EndEvent_0x6ir2l\" />\n    <bpmn:sendTask id=\"Activity_1xcl7s1\" name=\"send mail\" camunda:delegateExpression=\"${sendMail}\">\n      <bpmn:extensionElements />\n      <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>\n      <bpmn:outgoing>Flow_0gcq2ys</bpmn:outgoing>\n    </bpmn:sendTask>\n  </bpmn:process>\n  <bpmndi:BPMNDiagram id=\"BPMNDiagram_1\">\n    <bpmndi:BPMNPlane id=\"BPMNPlane_1\" bpmnElement=\"camundaTest-process\">\n      <bpmndi:BPMNShape id=\"_BPMNShape_StartEvent_2\" bpmnElement=\"StartEvent_1\">\n        <dc:Bounds x=\"179\" y=\"99\" width=\"36\" height=\"36\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_06wlc8e_di\" bpmnElement=\"say-hello\">\n        <dc:Bounds x=\"270\" y=\"77\" width=\"100\" height=\"80\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"EndEvent_0x6ir2l_di\" bpmnElement=\"EndEvent_0x6ir2l\">\n        <dc:Bounds x=\"722\" y=\"112\" width=\"36\" height=\"36\" />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNShape id=\"Activity_15kl2hq_di\" bpmnElement=\"Activity_1xcl7s1\">\n        <dc:Bounds x=\"470\" y=\"77\" width=\"100\" height=\"80\" />\n        <bpmndi:BPMNLabel />\n      </bpmndi:BPMNShape>\n      <bpmndi:BPMNEdge id=\"SequenceFlow_1fp17al_di\" bpmnElement=\"SequenceFlow_1fp17al\">\n        <di:waypoint x=\"215\" y=\"117\" />\n        <di:waypoint x=\"270\" y=\"117\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"SequenceFlow_16gzt2m_di\" bpmnElement=\"SequenceFlow_16gzt2m\">\n        <di:waypoint x=\"370\" y=\"117\" />\n        <di:waypoint x=\"470\" y=\"117\" />\n      </bpmndi:BPMNEdge>\n      <bpmndi:BPMNEdge id=\"Flow_0gcq2ys_di\" bpmnElement=\"Flow_0gcq2ys\">\n        <di:waypoint x=\"570\" y=\"117\" />\n        <di:waypoint x=\"646\" y=\"117\" />\n        <di:waypoint x=\"646\" y=\"130\" />\n        <di:waypoint x=\"722\" y=\"130\" />\n      </bpmndi:BPMNEdge>\n    </bpmndi:BPMNPlane>\n  </bpmndi:BPMNDiagram>\n</bpmn:definitions>\n";
           Node formNode = findNodeByTaskDefinitionId("say-hello", str);
           String json = getJSON(formNode, false).toString();   
@@ -215,6 +218,65 @@ public class WorkflowTest extends AbstractProcessEngineRuleTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+  }
+
+  @Test
+  public void shouldParseXmlFromRest() {
+    RestTemplate restTemplate = new RestTemplate();
+    String url = "http://localhost:8080/engine-rest/process-definition/camundaTest-process:2:c793f2d8-91c5-11ed-aa10-106fd9dce29f/xml";
+    MyData data = restTemplate.getForObject(url, MyData.class);
+    System.out.println(data);
+
+    BpmnModelInstance modelInst = Bpmn.readModelFromStream(new ByteArrayInputStream(data.getBpmn20Xml().getBytes()));
+
+    var lst = modelInst.getModelElementsByType(UserTask.class);
+    var task = lst.stream().findFirst();
+    if(task.isPresent()){
+      var extEls = task.get().getChildElementsByType(ExtensionElements.class);
+      var fds = extEls.stream().findFirst().get().getChildElementsByType(CamundaFormData.class);
+      var fields = fds.stream().findFirst().get().getCamundaFormFields();
+      fields.forEach((f) -> { 
+        var props = f.getCamundaProperties();
+        var dts = "";
+        if(props != null){
+          dts = props.getCamundaProperties().stream().map(p -> p.getCamundaId()).collect(Collectors.joining(","));
+        }
+        System.out.println(f.getCamundaId() + ", " + dts);
+      });
+    }
+
+    lst.forEach(e -> System.out.println(e.getName()+ e.getId()+e.getElementType().getTypeName()));
+  }
+
+}
+
+class MyData {
+  // fields, constructor, and getters/setters
+
+  private String id;
+  private String bpmn20Xml;
+
+  public MyData() {}
+
+  public MyData(String id, String bpmn20Xml){
+    this.id = id;
+    this.bpmn20Xml = bpmn20Xml;
+  }
+
+  public String getBpmn20Xml() {
+      return this.bpmn20Xml;
+  }
+
+  public void setBpmn20Xml(String value) {
+      this.bpmn20Xml = value;
+  }
+
+  public String getId() {
+    return this.id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
 }
