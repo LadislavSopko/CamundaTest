@@ -7,3 +7,6 @@ camunda.bpm.admin-user:
 camunda.bpm:  
   authorization:
     enabled: true
+
+server:
+  port : 8081
