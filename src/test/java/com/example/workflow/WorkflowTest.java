@@ -27,6 +27,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import com.example.workflow.dataModel.JsonData;
+
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
 
 import java.io.ByteArrayInputStream;
@@ -224,7 +226,7 @@ public class WorkflowTest extends AbstractProcessEngineRuleTest {
   public void shouldParseXmlFromRest() {
     RestTemplate restTemplate = new RestTemplate();
     String url = "http://localhost:8080/engine-rest/process-definition/camundaTest-process:2:c793f2d8-91c5-11ed-aa10-106fd9dce29f/xml";
-    MyData data = restTemplate.getForObject(url, MyData.class);
+    JsonData data = restTemplate.getForObject(url, JsonData.class);
     System.out.println(data);
 
     BpmnModelInstance modelInst = Bpmn.readModelFromStream(new ByteArrayInputStream(data.getBpmn20Xml().getBytes()));
@@ -246,37 +248,6 @@ public class WorkflowTest extends AbstractProcessEngineRuleTest {
     }
 
     lst.forEach(e -> System.out.println(e.getName()+ e.getId()+e.getElementType().getTypeName()));
-  }
-
-}
-
-class MyData {
-  // fields, constructor, and getters/setters
-
-  private String id;
-  private String bpmn20Xml;
-
-  public MyData() {}
-
-  public MyData(String id, String bpmn20Xml){
-    this.id = id;
-    this.bpmn20Xml = bpmn20Xml;
-  }
-
-  public String getBpmn20Xml() {
-      return this.bpmn20Xml;
-  }
-
-  public void setBpmn20Xml(String value) {
-      this.bpmn20Xml = value;
-  }
-
-  public String getId() {
-    return this.id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
   }
 
 }

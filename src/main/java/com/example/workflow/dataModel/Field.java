@@ -1,32 +1,26 @@
 package com.example.workflow.dataModel;
 
+import java.util.ArrayList;
+
 public class Field {
     
     private String id;
     private String label;
-    private FieldType type;
-    private String customeType;
+    private String type;
     private String defaultValue;
-    private Property[] properties;
+    private ArrayList<Property> properties;
     private Value[] values;
 
     public Field() {}
 
-    public Field(String id, String label, FieldType type, String customType, String defaultValue, Property[] properties, Value[] values) {
+    public Field(String id, String label, String type, String customType, String defaultValue, ArrayList<Property> properties, Value[] values) {
         this.id = id;
         this.label = label;
         this.type = type;
-
-        if(this.type == FieldType.CUSTOMETYPE){
-            this.customeType = customType;
-        }else{
-            this.customeType = null;
-        }
-
         this.defaultValue = defaultValue;
         this.properties = properties;
 
-        if(this.type == FieldType.ENUM){
+        if(this.type == "enum"){
             this.values = values;
         }else{
             this.values = null;
@@ -49,20 +43,12 @@ public class Field {
         this.label = label;
     }
 
-    public FieldType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(FieldType type) {
+    public void setType(String type) {
         this.type = type;
-    }
-
-    public String getCustomeType() {
-        return customeType;
-    }
-
-    public void setCustomeType(String customeType) {
-        this.customeType = customeType;
     }
 
     public String getDefaultValue() {
@@ -73,11 +59,11 @@ public class Field {
         this.defaultValue = defaultValue;
     }
 
-    public Property[] getProperties() {
+    public ArrayList<Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(Property[] properties) {
+    public void setProperties(ArrayList<Property> properties) {
         this.properties = properties;
     }
 

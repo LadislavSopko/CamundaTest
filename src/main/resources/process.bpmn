@@ -25,7 +25,8 @@
       <bpmn:outgoing>Flow_0gcq2ys</bpmn:outgoing>
     </bpmn:sendTask>
     <bpmn:sequenceFlow id="Flow_0oh2qvn" sourceRef="Activity_0w3j2wz" targetRef="say-hello" />
-    <bpmn:userTask id="Activity_0w3j2wz" name="formTask">
+    <bpmn:userTask id="Activity_0w3j2wz" name="testTask">
+      <bpmn:documentation>{"taskType": "Form"}</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="TextField" label="Name" type="string">
@@ -33,6 +34,7 @@
               <camunda:property id="description" value="super" />
               <camunda:property id="Type" value="textFiel" />
             </camunda:properties>
+            <camunda:validation />
           </camunda:formField>
           <camunda:formField id="NumberField" label="Favorite number" type="string">
             <camunda:properties>
