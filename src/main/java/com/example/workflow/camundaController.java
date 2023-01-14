@@ -58,11 +58,15 @@ public class camundaController {
                 fields.forEach((f) -> {
                     // create property
                     ArrayList<Property> properties = new ArrayList<>();
-                    var props = f.getCamundaProperties().getCamundaProperties();
-                    props.forEach((p) -> {
-                        properties.add(new Property(p.getCamundaId(), p.getCamundaValue()));
-                    });
-                    
+                    var preProps = f.getCamundaProperties();
+                    if(preProps != null){
+                        var props = preProps.getCamundaProperties();
+
+                        props.forEach((p) -> {
+                            properties.add(new Property(p.getCamundaId(), p.getCamundaValue()));
+                        });
+                    }
+            
                     // create new field
                     fieldsList.add(new Field(f.getCamundaId(), f.getCamundaLabel(), f.getCamundaType(), "", f.getCamundaDefaultValue(), properties, null));
                 });
