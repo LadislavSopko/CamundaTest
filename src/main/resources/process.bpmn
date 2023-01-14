@@ -2,85 +2,93 @@
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0fr9mxs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0">
   <bpmn:process id="camundaTest-process" name="MyFirstProcess" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1">
-      <bpmn:outgoing>SequenceFlow_1fp17al</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1gjuvdq</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1fp17al" sourceRef="StartEvent_1" targetRef="Activity_0w3j2wz" />
     <bpmn:endEvent id="EndEvent_0x6ir2l">
-      <bpmn:incoming>Flow_0gcq2ys</bpmn:incoming>
+      <bpmn:incoming>Flow_157p0up</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_16gzt2m" sourceRef="say-hello" targetRef="Activity_1xcl7s1" />
-    <bpmn:userTask id="say-hello" name="SomeForm" camunda:formRef="" camunda:formRefBinding="latest" camunda:candidateUsers="demo">
+    <bpmn:userTask id="say-hello" name="SomeForm" camunda:candidateUsers="demo">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:outputParameter name="UserName">${Meno} ${Priezvysko}</camunda:outputParameter>
         </camunda:inputOutput>
+        <camunda:formData>
+          <camunda:formField id="TextField" label="TextField" type="string" />
+        </camunda:formData>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0oh2qvn</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_16gzt2m</bpmn:outgoing>
+      <bpmn:incoming>Flow_0pygvpk</bpmn:incoming>
+      <bpmn:outgoing>Flow_157p0up</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_0gcq2ys" sourceRef="Activity_1xcl7s1" targetRef="EndEvent_0x6ir2l" />
-    <bpmn:sendTask id="Activity_1xcl7s1" name="send mail" camunda:delegateExpression="${sendMail}">
-      <bpmn:extensionElements />
-      <bpmn:incoming>SequenceFlow_16gzt2m</bpmn:incoming>
-      <bpmn:outgoing>Flow_0gcq2ys</bpmn:outgoing>
-    </bpmn:sendTask>
-    <bpmn:sequenceFlow id="Flow_0oh2qvn" sourceRef="Activity_0w3j2wz" targetRef="say-hello" />
-    <bpmn:userTask id="Activity_0w3j2wz" name="testTask">
+    <bpmn:userTask id="Activity_0w3j2wz" name="test Task">
       <bpmn:documentation>{"taskType": "Form"}</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="TextField" label="Name" type="string">
+          <camunda:formField id="StavPodpisania" label="Podpisat/zamietnut" type="enum">
             <camunda:properties>
-              <camunda:property id="description" value="super" />
-              <camunda:property id="Type" value="textFiel" />
+              <camunda:property id="ActionType" value="commit" />
+              <camunda:property id="UiType" value="button" />
             </camunda:properties>
             <camunda:validation />
+            <camunda:value id="podpisat" name="podpisat" />
+            <camunda:value id="zamietnut" name="zamietnut" />
           </camunda:formField>
-          <camunda:formField id="NumberField" label="Favorite number" type="string">
+          <camunda:formField id="odvovodnenie" label="odvovodnenie" type="string">
             <camunda:properties>
-              <camunda:property id="Type" value="numberField" />
+              <camunda:property id="UiType" value="textArea" />
             </camunda:properties>
           </camunda:formField>
+          <camunda:formField id="suhlas" label="Suhlasim" type="boolean">
+            <camunda:properties />
+          </camunda:formField>
+          <camunda:formField id="vytvorenie" label="Datum vytvorenia" type="date" />
+          <camunda:formField id="favNumber" label="Oblubene cislo" type="long" />
         </camunda:formData>
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1fp17al</bpmn:incoming>
-      <bpmn:outgoing>Flow_0oh2qvn</bpmn:outgoing>
+      <bpmn:incoming>Flow_1gjuvdq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lid6n8</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:manualTask id="Activity_1xcl7s1" name="send mail">
+      <bpmn:incoming>Flow_0lid6n8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0pygvpk</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:sequenceFlow id="Flow_157p0up" sourceRef="say-hello" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:sequenceFlow id="Flow_0lid6n8" sourceRef="Activity_0w3j2wz" targetRef="Activity_1xcl7s1" />
+    <bpmn:sequenceFlow id="Flow_0pygvpk" sourceRef="Activity_1xcl7s1" targetRef="say-hello" />
+    <bpmn:sequenceFlow id="Flow_1gjuvdq" sourceRef="StartEvent_1" targetRef="Activity_0w3j2wz" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="camundaTest-process">
-      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
-        <dc:Bounds x="152" y="99" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
         <dc:Bounds x="762" y="99" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_06wlc8e_di" bpmnElement="say-hello">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="132" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12vg0xa_di" bpmnElement="Activity_1xcl7s1">
         <dc:Bounds x="420" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_15kl2hq_di" bpmnElement="Activity_1xcl7s1">
-        <dc:Bounds x="590" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
+      <bpmndi:BPMNShape id="Activity_06wlc8e_di" bpmnElement="say-hello">
+        <dc:Bounds x="600" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1fo5ut5_di" bpmnElement="Activity_0w3j2wz">
         <dc:Bounds x="240" y="77" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1fp17al_di" bpmnElement="SequenceFlow_1fp17al">
-        <di:waypoint x="188" y="117" />
-        <di:waypoint x="240" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_16gzt2m_di" bpmnElement="SequenceFlow_16gzt2m">
-        <di:waypoint x="520" y="117" />
-        <di:waypoint x="590" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0gcq2ys_di" bpmnElement="Flow_0gcq2ys">
-        <di:waypoint x="690" y="117" />
+      <bpmndi:BPMNEdge id="Flow_157p0up_di" bpmnElement="Flow_157p0up">
+        <di:waypoint x="700" y="117" />
         <di:waypoint x="762" y="117" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0oh2qvn_di" bpmnElement="Flow_0oh2qvn">
+      <bpmndi:BPMNEdge id="Flow_0lid6n8_di" bpmnElement="Flow_0lid6n8">
         <di:waypoint x="340" y="117" />
         <di:waypoint x="420" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0pygvpk_di" bpmnElement="Flow_0pygvpk">
+        <di:waypoint x="520" y="117" />
+        <di:waypoint x="600" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1gjuvdq_di" bpmnElement="Flow_1gjuvdq">
+        <di:waypoint x="168" y="117" />
+        <di:waypoint x="240" y="117" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
