@@ -16,20 +16,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.workflow.dataModel.Constrain;
 import com.example.workflow.dataModel.Field;
 import com.example.workflow.dataModel.Form;
 import com.example.workflow.dataModel.JsonData;
 import com.example.workflow.dataModel.Property;
-
+import com.example.workflow.dataModel.Value;
 import com.google.gson.Gson;
 
 @RestController
 public class camundaController {
 
     // camundaTest-process:2:c793f2d8-91c5-11ed-aa10-106fd9dce29f - procesId
-    // camundaTest-process:4:8deb489f-9271-11ed-9fbe-106fd9dce29f
-    // 79fbf611-91bf-11ed-aa10-106fd9dce29f - taskId
-    // Activity_0w3j2wz - mozno toto je taskId
+    // Activity_0w3j2wz - tento je spravny
 
     @GetMapping("/form/{procesId}/{taskId}")
     String getFormInJson(@PathVariable String procesId, @PathVariable String taskId){
@@ -66,9 +65,29 @@ public class camundaController {
                             properties.add(new Property(p.getCamundaId(), p.getCamundaValue()));
                         });
                     }
+
+                    // create values
+                    ArrayList<Value> values = new ArrayList<>();
+                    var preValues = f.getCamundaValues();
+                    if(preValues.size() != 0){
+                        preValues.forEach((v) -> {
+                            values.add(new Value(v.getCamundaId(), v.getCamundaName()));
+                        });
+                    }
+
+                    // create constraints (nedokazem to potom deploinut)
+                    // ArrayList<Constrain> constraints = new ArrayList<>();
+                    // var preConstraints = f.getCamundaValidation();
+                    // if(preConstraints != null){
+                    //     var constra = preConstraints.getCamundaConstraints();
+
+                    //     constra.forEach((c) -> {
+                    //         constraints.add(new Constrain(c.getCamundaName(), c.getCamundaConfig()));
+                    //     });
+                    // }
             
                     // create new field
-                    fieldsList.add(new Field(f.getCamundaId(), f.getCamundaLabel(), f.getCamundaType(), "", f.getCamundaDefaultValue(), properties, null));
+                    fieldsList.add(new Field(f.getCamundaId(), f.getCamundaLabel(), f.getCamundaType(), f.getCamundaDefaultValue(), properties, values));
                 });
 
                 return new Gson().toJson(new Form(fieldsList, docValue));

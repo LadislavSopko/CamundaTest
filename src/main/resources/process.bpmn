@@ -20,12 +20,12 @@
       <bpmn:outgoing>Flow_157p0up</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_0w3j2wz" name="test Task">
-      <bpmn:documentation>{"taskType": "Form"}</bpmn:documentation>
+      <bpmn:documentation>generate</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="StavPodpisania" label="Podpisat/zamietnut" type="enum">
             <camunda:properties>
-              <camunda:property id="ActionType" value="commit" />
+              <camunda:property id="ActionType" value="submit" />
               <camunda:property id="UiType" value="button" />
             </camunda:properties>
             <camunda:validation />
@@ -36,12 +36,16 @@
             <camunda:properties>
               <camunda:property id="UiType" value="textArea" />
             </camunda:properties>
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
           </camunda:formField>
           <camunda:formField id="suhlas" label="Suhlasim" type="boolean">
             <camunda:properties />
           </camunda:formField>
-          <camunda:formField id="vytvorenie" label="Datum vytvorenia" type="date" />
+          <camunda:formField id="vytvorenie" label="Datum vytvorenia" type="boolean" defaultValue="sdsaskd" />
           <camunda:formField id="favNumber" label="Oblubene cislo" type="long" />
+          <camunda:formField id="testDefaultValue" label="default" type="boolean" defaultValue="true" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1gjuvdq</bpmn:incoming>
@@ -58,14 +62,11 @@
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="camundaTest-process">
-      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
-        <dc:Bounds x="762" y="99" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="132" y="99" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_12vg0xa_di" bpmnElement="Activity_1xcl7s1">
-        <dc:Bounds x="420" y="77" width="100" height="80" />
+      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
+        <dc:Bounds x="762" y="99" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_06wlc8e_di" bpmnElement="say-hello">
         <dc:Bounds x="600" y="77" width="100" height="80" />
@@ -73,6 +74,9 @@
       <bpmndi:BPMNShape id="Activity_1fo5ut5_di" bpmnElement="Activity_0w3j2wz">
         <dc:Bounds x="240" y="77" width="100" height="80" />
         <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12vg0xa_di" bpmnElement="Activity_1xcl7s1">
+        <dc:Bounds x="420" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_157p0up_di" bpmnElement="Flow_157p0up">
         <di:waypoint x="700" y="117" />

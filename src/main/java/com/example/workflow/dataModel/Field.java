@@ -9,22 +9,34 @@ public class Field {
     private String type;
     private String defaultValue;
     private ArrayList<Property> properties;
-    private Value[] values;
+    private ArrayList<Value> values;
+    // private ArrayList<Constrain> constrints;
 
     public Field() {}
 
-    public Field(String id, String label, String type, String customType, String defaultValue, ArrayList<Property> properties, Value[] values) {
+    public Field(String id, String label, String type, String defaultValue, ArrayList<Property> properties, ArrayList<Value> values) {
         this.id = id;
         this.label = label;
         this.type = type;
         this.defaultValue = defaultValue;
-        this.properties = properties;
 
-        if(this.type == "enum"){
-            this.values = values;
+        if(properties.size() == 0){
+            this.properties = null;
         }else{
-            this.values = null;
+            this.properties = properties;
         }
+
+        if(values.size() == 0){
+            this.values = null;
+        }else{
+            this.values = values;
+        }
+
+        // if(constrints.size() == 0){
+        //     this.constrints = null;
+        // }else{
+        //     this.constrints = constrints;
+        // }
     }
 
     public String getId() {
@@ -67,12 +79,20 @@ public class Field {
         this.properties = properties;
     }
 
-    public Value[] getValues() {
+    public ArrayList<Value> getValues() {
         return values;
     }
 
-    public void setValues(Value[] values) {
+    public void setValues(ArrayList<Value> values) {
         this.values = values;
     }
+
+    // public ArrayList<Constrain> getConstrints() {
+    //     return constrints;
+    // }
+
+    // public void setConstrints(ArrayList<Constrain> constrints) {
+    //     this.constrints = constrints;
+    // }
 
 }
