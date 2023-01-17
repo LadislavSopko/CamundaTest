@@ -20,6 +20,7 @@ import com.example.workflow.dataModel.Constrain;
 import com.example.workflow.dataModel.Field;
 import com.example.workflow.dataModel.Form;
 import com.example.workflow.dataModel.JsonData;
+import com.example.workflow.dataModel.ProcessList;
 import com.example.workflow.dataModel.Property;
 import com.example.workflow.dataModel.Value;
 import com.google.gson.Gson;
@@ -96,6 +97,41 @@ public class camundaController {
             lst.forEach(e -> System.out.println(e.getName()+ e.getId()+e.getElementType().getTypeName()));
         }
         return procesId + " | " + taskId;
+    }
+
+    @GetMapping("/task-list/{procesId}")
+    String getTaskList(@PathVariable String procesId){
+        RestTemplate restTemplate = new RestTemplate();
+        String url = String.format("http://localhost:8080/engine-rest/process-definition/%s/xml", procesId);
+        JsonData data = restTemplate.getForObject(url, JsonData.class);
+
+        if(data != null){
+            BpmnModelInstance modelInst = Bpmn.readModelFromStream(new ByteArrayInputStream(data.getBpmn20Xml().getBytes()));
+
+            var lst = modelInst.getModelElementsByType(UserTask.class);
+            if(lst.size() > 0){
+                var tasks = new ArrayList<String>();
+                lst.forEach(task -> {
+                    tasks.add(task.getId());
+                });
+
+                return "{\"tasks\":" + new Gson().toJson(tasks) + "}";
+            }
+        }
+        return procesId;
+    }
+
+    @GetMapping("/process-list")
+    String getProcessList(){
+        RestTemplate restTemplate = new RestTemplate();
+        String url = String.format("http://localhost:8080/engine-rest/process-definition");
+        var response = restTemplate.getForEntity(url , Object[].class);
+        var data = response.getBody();
+
+        if(data != null){
+            return "{\"process\":" + new Gson().toJson(data) + "}";
+        }
+        return "[]";
     }
     
 }

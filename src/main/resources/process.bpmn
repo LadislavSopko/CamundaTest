@@ -20,6 +20,7 @@
       <bpmn:outgoing>Flow_157p0up</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_0w3j2wz" name="test Task">
+      
       <bpmn:documentation>generate</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:formData>
@@ -32,20 +33,26 @@
             <camunda:value id="podpisat" name="podpisat" />
             <camunda:value id="zamietnut" name="zamietnut" />
           </camunda:formField>
-          <camunda:formField id="odvovodnenie" label="odvovodnenie" type="string">
+          <camunda:formField id="Popis" label="Popis" type="string">
             <camunda:properties>
               <camunda:property id="UiType" value="textArea" />
             </camunda:properties>
-            <camunda:validation>
-              <camunda:constraint name="required" />
-            </camunda:validation>
+            <camunda:validation />
           </camunda:formField>
           <camunda:formField id="suhlas" label="Suhlasim" type="boolean">
             <camunda:properties />
           </camunda:formField>
-          <camunda:formField id="vytvorenie" label="Datum vytvorenia" type="boolean" defaultValue="sdsaskd" />
+          <camunda:formField id="vytvorenie" label="Datum vytvorenia" type="date" />
           <camunda:formField id="favNumber" label="Oblubene cislo" type="long" />
           <camunda:formField id="testDefaultValue" label="default" type="boolean" defaultValue="true" />
+          <camunda:formField id="Text" label="Title" type="string" defaultValue="Clanok" />
+          <camunda:formField id="Select Field" label="Pohlavie" type="enum">
+            <camunda:properties>
+              <camunda:property id="UiType" value="select" />
+            </camunda:properties>
+            <camunda:value id="0" name="Male" />
+            <camunda:value id="1" name="Female" />
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1gjuvdq</bpmn:incoming>
