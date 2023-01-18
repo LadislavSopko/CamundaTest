@@ -1,0 +1,56 @@
+<div *ngIf="fieldsForGenerate">
+
+    <ng-container *ngFor="let field of fieldsForGenerate">
+
+        <ng-container *ngIf="field.type == 'string-input'">
+            <alf-input-string [config]="field.fieldConfig"></alf-input-string>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'String-text'">
+            <alf-input-text [config]="field.fieldConfig"></alf-input-text>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'number'">
+            <alf-input-number [config]="field.fieldConfig"></alf-input-number>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'date'">
+            <alf-datetime-picker [config]="field.fieldConfig"></alf-datetime-picker>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'checkBox'">
+            <alf-checkbox [config]="field.fieldConfig"></alf-checkbox>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'select'">
+            <alf-drop-down-list [config]="field.fieldConfig"></alf-drop-down-list>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'checkBox-list'">
+            <alf-checkbox-list [config]="field.fieldConfig"></alf-checkbox-list>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'radiobox-list'">
+            <alf-radio-button-list [config]="field.fieldConfig"></alf-radio-button-list>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'button'">
+            <ng-container *ngIf="field.action == 'submit'">
+                <alf-button [config]="field.fieldConfig" (click)="clickSubmit()"></alf-button>
+            </ng-container>
+            <ng-container *ngIf="field.action == 'clear'">
+                <alf-button [config]="field.fieldConfig" (click)="clickClear()"></alf-button>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="field.type == 'button-list'">
+            <ng-container *ngIf="field.action == 'submit'">
+                <ng-container *ngFor="let button of field.buttons">
+                    <alf-button [config]="button" (click)="clickSubmitChose(field.fieldConfig.name, button.name)"></alf-button>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+    </ng-container>
+
+</div>

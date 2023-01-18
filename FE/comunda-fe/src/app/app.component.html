@@ -1,0 +1,19 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <label for="processId">Process id:</label>
+    <input type="text" id="processId" name="processId" [(ngModel)]="processId">
+
+    <label for="taskId">Task id:</label>
+    <input type="text" id="taskId" name="taskId" [(ngModel)]="taskId">
+
+    <button (click)="generate()">Generate</button>
+  </div>
+
+  <div class="govuk-grid-column-full">
+    <alf-user-task-generator [json]="userTaskJson" (submit)="submit($event)"></alf-user-task-generator>
+  </div>
+
+  <div class="govuk-grid-column-full mt-4">
+    <textarea id="jsonView" name="jsonView" rows="15" cols="100" [(ngModel)]="result"></textarea>
+  </div>
+</div>

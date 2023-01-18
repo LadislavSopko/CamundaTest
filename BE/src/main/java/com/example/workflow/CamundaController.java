@@ -26,7 +26,7 @@ import com.example.workflow.dataModel.Value;
 import com.google.gson.Gson;
 
 @RestController
-public class camundaController {
+public class CamundaController {
 
     // camundaTest-process:2:c793f2d8-91c5-11ed-aa10-106fd9dce29f - procesId
     // Activity_0w3j2wz - tento je spravny
