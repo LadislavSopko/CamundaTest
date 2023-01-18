@@ -8,6 +8,9 @@ import org.camunda.bpm.model.bpmn.instance.Documentation;
 import org.camunda.bpm.model.bpmn.instance.ExtensionElements;
 import org.camunda.bpm.model.bpmn.instance.UserTask;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaFormData;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +22,9 @@ import com.example.workflow.dataModel.JsonData;
 import com.example.workflow.dataModel.Property;
 import com.example.workflow.dataModel.Value;
 import com.google.gson.Gson;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 public class CamundaController {
@@ -127,6 +133,29 @@ public class CamundaController {
             return "{\"process\":" + new Gson().toJson(data) + "}";
         }
         return "[]";
+    }
+
+    @GetMapping("/executed-task-list")
+    String getExecutedTaskList(){
+        RestTemplate restTemplate = new RestTemplate();
+        String url = String.format("http://localhost:8080/engine-rest/task");
+        var response = restTemplate.getForEntity(url , Object[].class);
+        var data = response.getBody();
+
+        if(data != null){
+            return "{\"tasks\":" + new Gson().toJson(data) + "}";
+        }
+        return "[]";
+    }
+
+    @PostMapping(path="/submit-form/{taskId}")
+    public void submitForm(@PathVariable String taskId, @RequestBody String inputJson) {
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> request = new HttpEntity<String>(inputJson, headers);
+        String url = String.format("http://localhost:8080/engine-rest/task/%s/submit-form", taskId);
+        var response = restTemplate.postForObject(url , request, String.class);
     }
     
 }

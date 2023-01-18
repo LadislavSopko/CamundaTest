@@ -24,4 +24,15 @@
     <label for="processId">result:</label>
     <textarea id="jsonView" name="jsonView" rows="15" cols="150" [(ngModel)]="result"></textarea>
   </div>
+
+  <div *ngIf="result" class="govuk-grid-column-full mt-5 d-flex flex-column">
+    <label for="processId">Executed task:</label>
+    <select [(ngModel)]="executedTaskId">
+      <option *ngFor="let task of executedTaskList" value="{{task.id}}">{{task.taskDefinitionKey}} - {{task.id}}</option>
+    </select>
+    <button (click)="sendToServer()">Send to server</button>
+  </div>
+
+  <p *ngIf="sucessSend"> Sucess </p>
+
 </div>
