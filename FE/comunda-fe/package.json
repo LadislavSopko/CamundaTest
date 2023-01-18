@@ -26,7 +26,10 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
-    "dayjs": "1.11.1"
+    "dayjs": "1.11.1",
+    "@id-sk/frontend": "^2.9.0",
+    "bootstrap": "^4.5.0",
+    "jquery": "^3.6.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.0",

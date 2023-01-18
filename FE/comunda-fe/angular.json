@@ -31,12 +31,28 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@id-sk/frontend/idsk/assets",
+                "output": "./assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@id-sk/frontend/govuk/assets/fonts",
+                "output": "./assets/fonts"
+              }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/bootstrap/scss/bootstrap.scss",
+              "./node_modules/bootstrap/dist/css/bootstrap.css",
+              "./node_modules/@common/common-ui/src/lib/assets/styles.scss",
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.js"
+            ]
           },
           "configurations": {
             "production": {

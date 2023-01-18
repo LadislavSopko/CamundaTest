@@ -1,19 +1,27 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+<div class="govuk-grid-row m-4">
+
+  <div class="govuk-grid-column-full d-flex flex-column">
     <label for="processId">Process id:</label>
-    <input type="text" id="processId" name="processId" [(ngModel)]="processId">
+    <select [(ngModel)]="processId">
+      <option *ngFor="let process of processList" value="{{process.id}}">{{process.name}} - {{process.id}} - {{process.version}}</option>
+    </select>
+    <button (click)="selectProcess()">Select Process</button>
+  </div>
 
+  <div *ngIf="processSelected" class="govuk-grid-column-full d-flex flex-column">
     <label for="taskId">Task id:</label>
-    <input type="text" id="taskId" name="taskId" [(ngModel)]="taskId">
-
+    <select [(ngModel)]="taskId">
+      <option *ngFor="let task of taskList" value="{{task}}">{{task}}</option>
+    </select>
     <button (click)="generate()">Generate</button>
   </div>
 
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-full mt-5">
     <alf-user-task-generator [json]="userTaskJson" (submit)="submit($event)"></alf-user-task-generator>
   </div>
 
-  <div class="govuk-grid-column-full mt-4">
-    <textarea id="jsonView" name="jsonView" rows="15" cols="100" [(ngModel)]="result"></textarea>
+  <div class="govuk-grid-column-full mt-5 d-flex flex-column">
+    <label for="processId">result:</label>
+    <textarea id="jsonView" name="jsonView" rows="15" cols="150" [(ngModel)]="result"></textarea>
   </div>
 </div>
