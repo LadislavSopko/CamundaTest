@@ -2,25 +2,20 @@ package com.example.workflow;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 import org.camunda.bpm.model.bpmn.Bpmn;
 import org.camunda.bpm.model.bpmn.BpmnModelInstance;
 import org.camunda.bpm.model.bpmn.instance.Documentation;
 import org.camunda.bpm.model.bpmn.instance.ExtensionElements;
 import org.camunda.bpm.model.bpmn.instance.UserTask;
 import org.camunda.bpm.model.bpmn.instance.camunda.CamundaFormData;
-import org.camunda.bpm.model.bpmn.instance.camunda.CamundaProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.workflow.dataModel.Constrain;
 import com.example.workflow.dataModel.Field;
 import com.example.workflow.dataModel.Form;
 import com.example.workflow.dataModel.JsonData;
-import com.example.workflow.dataModel.ProcessList;
 import com.example.workflow.dataModel.Property;
 import com.example.workflow.dataModel.Value;
 import com.google.gson.Gson;
