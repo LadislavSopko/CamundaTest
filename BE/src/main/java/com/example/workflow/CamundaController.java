@@ -29,13 +29,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 public class CamundaController {
 
-    // camundaTest-process:2:c793f2d8-91c5-11ed-aa10-106fd9dce29f - procesId
-    // Activity_0w3j2wz - tento je spravny
+    private final MyProperty myProperties;
+
+    public CamundaController(MyProperty myProperties) {
+        this.myProperties = myProperties;
+    }
 
     @GetMapping("/form/{procesId}/{taskId}")
     String getFormInJson(@PathVariable String procesId, @PathVariable String taskId){
         RestTemplate restTemplate = new RestTemplate();
-        String url = String.format("http://localhost:8080/engine-rest/process-definition/%s/xml", procesId);
+        String url = String.format("%s/process-definition/%s/xml", myProperties.getUrl(), procesId);
         JsonData data = restTemplate.getForObject(url, JsonData.class);
 
         if(data != null){
@@ -103,7 +106,7 @@ public class CamundaController {
     @GetMapping("/task-list/{procesId}")
     String getTaskList(@PathVariable String procesId){
         RestTemplate restTemplate = new RestTemplate();
-        String url = String.format("http://localhost:8080/engine-rest/process-definition/%s/xml", procesId);
+        String url = String.format("%s/process-definition/%s/xml", myProperties.getUrl(), procesId);
         JsonData data = restTemplate.getForObject(url, JsonData.class);
 
         if(data != null){
@@ -125,7 +128,7 @@ public class CamundaController {
     @GetMapping("/process-list")
     String getProcessList(){
         RestTemplate restTemplate = new RestTemplate();
-        String url = String.format("http://localhost:8080/engine-rest/process-definition");
+        String url = String.format("%s/process-definition", myProperties.getUrl());
         var response = restTemplate.getForEntity(url , Object[].class);
         var data = response.getBody();
 
@@ -138,7 +141,7 @@ public class CamundaController {
     @GetMapping("/executed-task-list")
     String getExecutedTaskList(){
         RestTemplate restTemplate = new RestTemplate();
-        String url = String.format("http://localhost:8080/engine-rest/task");
+        String url = String.format("%s/task", myProperties.getUrl());
         var response = restTemplate.getForEntity(url , Object[].class);
         var data = response.getBody();
 
@@ -154,7 +157,7 @@ public class CamundaController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<String> request = new HttpEntity<String>(inputJson, headers);
-        String url = String.format("http://localhost:8080/engine-rest/task/%s/submit-form", taskId);
+        String url = String.format("%s/task/%s/submit-form", myProperties.getUrl(), taskId);
         var response = restTemplate.postForObject(url , request, String.class);
     }
     

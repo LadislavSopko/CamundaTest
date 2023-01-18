@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AlfUserTaskGeneratorComponent } from './alf-user-task-generator/alf-user-task-generator.component';
@@ -7,6 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { LibraryModule } from '@common/common-ui';
+import localeSk from '@angular/common/locales/sk';
+
+// registers SK locale data
+registerLocaleData(localeSk);
 
 @NgModule({
   declarations: [
@@ -21,9 +25,7 @@ import { LibraryModule } from '@common/common-ui';
     FormsModule,
     LibraryModule
   ],
-  providers: [
-    
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

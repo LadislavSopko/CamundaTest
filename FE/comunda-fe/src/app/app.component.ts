@@ -32,7 +32,7 @@ export class AppComponent implements OnInit{
   }
 
   submit(data: any){
-    this.result = JSON.stringify(data);
+    this.result = JSON.stringify(data, null, "\t");
     this.loadExecutedTasks(this.processId);
   }
 

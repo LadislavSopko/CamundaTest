@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AngularController {
 
-    @RequestMapping("/tester") 
+    @RequestMapping("/") 
     public String index() {
         return "forward:/index.html"; 
     } 
