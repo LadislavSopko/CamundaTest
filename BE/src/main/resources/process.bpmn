@@ -5,7 +5,7 @@
       <bpmn:outgoing>Flow_1gjuvdq</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:endEvent id="EndEvent_0x6ir2l">
-      <bpmn:incoming>Flow_157p0up</bpmn:incoming>
+      <bpmn:incoming>Flow_0ykvsn6</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:userTask id="say-hello" name="SomeForm" camunda:candidateUsers="demo">
       <bpmn:extensionElements>
@@ -14,13 +14,17 @@
         </camunda:inputOutput>
         <camunda:formData>
           <camunda:formField id="TextField" label="TextField" type="string" />
+          <camunda:formField id="Description" label="Popis" type="string">
+            <camunda:properties>
+              <camunda:property id="UiType" value="textArea" />
+            </camunda:properties>
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0pygvpk</bpmn:incoming>
+      <bpmn:incoming>Flow_0lid6n8</bpmn:incoming>
       <bpmn:outgoing>Flow_157p0up</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_0w3j2wz" name="test Task">
-      
       <bpmn:documentation>generate</bpmn:documentation>
       <bpmn:extensionElements>
         <camunda:formData>
@@ -49,57 +53,75 @@
           <camunda:formField id="Select Field" label="Pohlavie" type="enum">
             <camunda:properties>
               <camunda:property id="UiType" value="select" />
+              <camunda:property id="DataSource" value="{&#34;type&#34;: &#34;rest&#34;, &#34;method&#34;:&#34;POST&#34;, &#34;url&#34;:&#34;/internyPouzivatel/shortFilter&#34;, &#34;params&#34;:{}, &#34;dataForm&#34;:{&#34;key&#34;:&#34;id&#34;, &#34;value&#34;:&#34;formatovaneMeno&#34;}}" />
             </camunda:properties>
-            <camunda:value id="0" name="Male" />
-            <camunda:value id="1" name="Female" />
+          </camunda:formField>
+          <camunda:formField id="selectSource" label="Select" type="enum">
+            <camunda:properties>
+              <camunda:property id="DataSource" value="{&#34;type&#34;: &#34;rest&#34;, &#34;method&#34;:&#34;POST&#34;, &#34;url&#34;:&#34;/internyPouzivatel/shortFilter&#34;, &#34;params&#34;:{}, &#34;dataForm&#34;:{&#34;key&#34;:&#34;id&#34;, &#34;value&#34;:&#34;formatovaneMeno&#34;}}" />
+              <camunda:property id="UiType" value="select" />
+            </camunda:properties>
           </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1gjuvdq</bpmn:incoming>
       <bpmn:outgoing>Flow_0lid6n8</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:manualTask id="Activity_1xcl7s1" name="send mail">
-      <bpmn:incoming>Flow_0lid6n8</bpmn:incoming>
-      <bpmn:outgoing>Flow_0pygvpk</bpmn:outgoing>
-    </bpmn:manualTask>
-    <bpmn:sequenceFlow id="Flow_157p0up" sourceRef="say-hello" targetRef="EndEvent_0x6ir2l" />
-    <bpmn:sequenceFlow id="Flow_0lid6n8" sourceRef="Activity_0w3j2wz" targetRef="Activity_1xcl7s1" />
-    <bpmn:sequenceFlow id="Flow_0pygvpk" sourceRef="Activity_1xcl7s1" targetRef="say-hello" />
+    <bpmn:sequenceFlow id="Flow_157p0up" sourceRef="say-hello" targetRef="Rozhodnutie" />
+    <bpmn:sequenceFlow id="Flow_0lid6n8" sourceRef="Activity_0w3j2wz" targetRef="say-hello" />
     <bpmn:sequenceFlow id="Flow_1gjuvdq" sourceRef="StartEvent_1" targetRef="Activity_0w3j2wz" />
+    <bpmn:sequenceFlow id="Flow_0ykvsn6" sourceRef="Rozhodnutie" targetRef="EndEvent_0x6ir2l" />
+    <bpmn:userTask id="Rozhodnutie" name="Rozhodnutie">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="rozhodnutie" label="Rozhodnutie" type="enum">
+            <camunda:properties>
+              <camunda:property id="UiType" value="button" />
+              <camunda:property id="ActionType" value="submit" />
+            </camunda:properties>
+            <camunda:value id="potvrdit" name="Potvdiť" />
+            <camunda:value id="zamietnut" name="Zamietnuť" />
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_157p0up</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ykvsn6</bpmn:outgoing>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="camundaTest-process">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="132" y="99" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
-        <dc:Bounds x="762" y="99" width="36" height="36" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_06wlc8e_di" bpmnElement="say-hello">
-        <dc:Bounds x="600" y="77" width="100" height="80" />
+        <dc:Bounds x="410" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1fo5ut5_di" bpmnElement="Activity_0w3j2wz">
         <dc:Bounds x="240" y="77" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_12vg0xa_di" bpmnElement="Activity_1xcl7s1">
-        <dc:Bounds x="420" y="77" width="100" height="80" />
+      <bpmndi:BPMNShape id="EndEvent_0x6ir2l_di" bpmnElement="EndEvent_0x6ir2l">
+        <dc:Bounds x="742" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mmugui_di" bpmnElement="Rozhodnutie">
+        <dc:Bounds x="570" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_157p0up_di" bpmnElement="Flow_157p0up">
-        <di:waypoint x="700" y="117" />
-        <di:waypoint x="762" y="117" />
+        <di:waypoint x="510" y="117" />
+        <di:waypoint x="570" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0lid6n8_di" bpmnElement="Flow_0lid6n8">
         <di:waypoint x="340" y="117" />
-        <di:waypoint x="420" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0pygvpk_di" bpmnElement="Flow_0pygvpk">
-        <di:waypoint x="520" y="117" />
-        <di:waypoint x="600" y="117" />
+        <di:waypoint x="410" y="117" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1gjuvdq_di" bpmnElement="Flow_1gjuvdq">
         <di:waypoint x="168" y="117" />
         <di:waypoint x="240" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ykvsn6_di" bpmnElement="Flow_0ykvsn6">
+        <di:waypoint x="670" y="117" />
+        <di:waypoint x="742" y="117" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

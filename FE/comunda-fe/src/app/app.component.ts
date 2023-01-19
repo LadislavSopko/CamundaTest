@@ -58,6 +58,13 @@ export class AppComponent implements OnInit{
     this.httpClient.get(`http://localhost:8080/process-list`).subscribe({
       next: (data: any) => {
         this.processList = data.process;
+        this.processList.sort((a:any, b:any) => {
+          if(a.name === b.name){
+            return b.version - a.version;
+          }else{
+            return a.name - b.name;
+          }
+        })
       },
       error: error => console.log(error)
     });
@@ -67,6 +74,7 @@ export class AppComponent implements OnInit{
     this.httpClient.get(`http://localhost:8080/task-list/${processId}`).subscribe({
       next: (data:any) => {
         this.taskList = data.tasks;
+        this.taskList.sort();
       },
       error: error => console.log(error)
     });

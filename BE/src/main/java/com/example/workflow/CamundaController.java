@@ -20,6 +20,7 @@ import com.example.workflow.dataModel.Field;
 import com.example.workflow.dataModel.Form;
 import com.example.workflow.dataModel.JsonData;
 import com.example.workflow.dataModel.Property;
+import com.example.workflow.dataModel.UserTaskCustome;
 import com.example.workflow.dataModel.Value;
 import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,17 +80,6 @@ public class CamundaController {
                             values.add(new Value(v.getCamundaId(), v.getCamundaName()));
                         });
                     }
-
-                    // create constraints (nedokazem to potom deploinut)
-                    // ArrayList<Constrain> constraints = new ArrayList<>();
-                    // var preConstraints = f.getCamundaValidation();
-                    // if(preConstraints != null){
-                    //     var constra = preConstraints.getCamundaConstraints();
-
-                    //     constra.forEach((c) -> {
-                    //         constraints.add(new Constrain(c.getCamundaName(), c.getCamundaConfig()));
-                    //     });
-                    // }
             
                     // create new field
                     fieldsList.add(new Field(f.getCamundaId(), f.getCamundaLabel(), f.getCamundaType(), f.getCamundaDefaultValue(), properties, values));
@@ -114,9 +104,9 @@ public class CamundaController {
 
             var lst = modelInst.getModelElementsByType(UserTask.class);
             if(lst.size() > 0){
-                var tasks = new ArrayList<String>();
+                var tasks = new ArrayList<UserTaskCustome>();
                 lst.forEach(task -> {
-                    tasks.add(task.getId());
+                    tasks.add(new UserTaskCustome(task.getId(), task.getName()));
                 });
 
                 return "{\"tasks\":" + new Gson().toJson(tasks) + "}";

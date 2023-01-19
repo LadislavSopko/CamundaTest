@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ConfigButton, ConfigCalendar, ConfigCheckbox, ConfigCheckboxList, ConfigNumber, ConfigRadio, ConfigSelect, ConfigString, ConfigTextArea } from '@common/common-ui';
+import { DataSourceConfiguration, RestSelectDataSource } from 'src/shared/rest-select-data-source';
 
 export class GenerateField{
   fieldConfig: any;
@@ -45,7 +47,9 @@ export class AlfUserTaskGeneratorComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(
+    private httpClient: HttpClient
+  ) { }
 
   ngOnInit(): void {
   }
@@ -71,6 +75,7 @@ export class AlfUserTaskGeneratorComponent implements OnInit {
       let type: string = 'input';
       let action: string = 'none';
       let order: number = 999;
+      let configDataSource: DataSourceConfiguration | null = null;
       if(field.properties != null && field.properties.length > 0){
         field.properties.forEach((property:any) => {
           if(property.id == 'UiType'){
@@ -79,6 +84,11 @@ export class AlfUserTaskGeneratorComponent implements OnInit {
             action = property.value;
           }else if(property.id == 'Order'){
             order = property.value;
+          }else if(property.id == 'DataSource'){
+            let response = JSON.parse(property.value);
+            if(response.type === "rest"){
+              configDataSource = response;
+            }
           }
         });
       }
@@ -99,6 +109,10 @@ export class AlfUserTaskGeneratorComponent implements OnInit {
             keyName: 'id',
             valueName: 'name'
           });
+
+          if(configDataSource != null){
+            element.optionsProvider = new RestSelectDataSource(this.httpClient, configDataSource)
+          } 
 
           this.fieldsForGenerate.push(new GenerateField(element , "select", order));
           this._form?.addControl(field.id, element.formControl);

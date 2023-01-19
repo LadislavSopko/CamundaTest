@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url: "https://dev.alfabase.sk/sps_int_be", 
+  url_spolocne_objekty: "https://dev.alfabase.sk/spol_obj_be",
+  url_sablony:"https://dev.alfabase.sk/template_be",
 };
 
 /*

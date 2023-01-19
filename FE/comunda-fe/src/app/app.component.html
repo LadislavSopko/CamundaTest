@@ -3,7 +3,7 @@
   <div class="govuk-grid-column-full d-flex flex-column">
     <label for="processId">Process id:</label>
     <select [(ngModel)]="processId">
-      <option *ngFor="let process of processList" value="{{process.id}}">{{process.name}} - {{process.id}} - {{process.version}}</option>
+      <option *ngFor="let process of processList" value="{{process.id}}">{{process.name}} - {{process.version}} ({{process.id}})</option>
     </select>
     <button (click)="selectProcess()">Select Process</button>
   </div>
@@ -11,7 +11,7 @@
   <div *ngIf="processSelected" class="govuk-grid-column-full d-flex flex-column">
     <label for="taskId">Task id:</label>
     <select [(ngModel)]="taskId">
-      <option *ngFor="let task of taskList" value="{{task}}">{{task}}</option>
+      <option *ngFor="let task of taskList" value="{{task.id}}">{{task.name}} ({{task.id}})</option>
     </select>
     <button (click)="generate()">Generate</button>
   </div>
@@ -28,7 +28,7 @@
   <div *ngIf="result" class="govuk-grid-column-full mt-5 d-flex flex-column">
     <label for="processId">Executed task:</label>
     <select [(ngModel)]="executedTaskId">
-      <option *ngFor="let task of executedTaskList" value="{{task.id}}">{{task.taskDefinitionKey}} - {{task.id}}</option>
+      <option *ngFor="let task of executedTaskList" value="{{task.id}}">{{task.name}} - {{task.taskDefinitionKey}} ({{task.id}})</option>
     </select>
     <button (click)="sendToServer()">Send to server</button>
   </div>
